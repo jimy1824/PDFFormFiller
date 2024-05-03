@@ -1,5 +1,6 @@
-from PyPDF2 import PdfReader, PdfFileWriter, PdfWriter
-from PyPDF2.generic import BooleanObject, NameObject, IndirectObject, TextStringObject
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, TextStringObject
+import os
 
 import requests
 
@@ -24,7 +25,7 @@ class PDFFormFiller:
                     field = annotation.get_object()
                     if '/T' in field:
                         # fields.append(field['/T'][1:])  # Remove leading '/'
-                        fields.append(field['/T'])  # Remove leading '/'
+                        fields.append(field['/T'])
         return fields
 
     def update_pdf(self, api_data):
@@ -38,8 +39,7 @@ class PDFFormFiller:
                 for annotation in annotations:
                     annotation_object = annotation.get_object()
                     # field_name = annotation_object['/T'][1:]  # Remove leading '/'
-                    field_name = annotation_object['/T']  # Remove leading '/'
-                    # import pdb;pdb.set_trace()
+                    field_name = annotation_object['/T']
                     if field_name in api_data:
                         annotation_object.update({NameObject("/V"): TextStringObject(api_data[field_name])})
             writer.add_page(page)
@@ -50,15 +50,14 @@ class PDFFormFiller:
     def fill_form(self):
         # api_data = self.fetch_data_from_api()
         api_data = {
-            'Given Name Text Box': 'test',
+            'Given Name Text Box': 'testnnnd',
             'Family Name Text Box': 'test family'
         }
         pdf_fields = self.find_fields_in_pdf()
         print(pdf_fields)
-        # import pdb;pdb.set_trace()
-        # Here you can do further processing if needed with pdf_fields
         self.update_pdf(api_data)
 
 # Usage
-pdf_form_filler = PDFFormFiller("input.pdf", "API_ENDPOINT_HERE")
+os.makedirs('output', exist_ok=True)
+pdf_form_filler = PDFFormFiller("input/input.pdf", "API_ENDPOINT_HERE")
 pdf_form_filler.fill_form()

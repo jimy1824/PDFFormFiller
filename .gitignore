@@ -301,12 +301,6 @@ pyvenv.cfg
 pip-selfcheck.json
 
 ### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
 .history/
@@ -323,3 +317,6 @@ pip-selfcheck.json
 output
 
 # End of https://www.toptal.com/developers/gitignore/api/python,intellij,visualstudiocode,virtualenv,dotenv
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
